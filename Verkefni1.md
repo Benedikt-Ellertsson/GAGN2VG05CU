@@ -91,7 +91,7 @@ begin
 	return creditSum;  
 end €€  
 delimiter ;  
-###8: Skrifa Function sem kannar hvort ákv. dagsetning(date) sé á hlaupári  
+### 8: Skrifa Function sem kannar hvort ákv. dagsetning(date) sé á hlaupári  
 
 
 ### 9: Skrifa Function sem reiknar út aldur ef upp er gefin dagsetning(date)  
