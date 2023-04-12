@@ -1,6 +1,6 @@
 # GAGN2VG05CU
-##Verkefni 1 - kóði  
-###2: Birta upplýsingar um einn ákveðinn áfanga með Stored Procedure  
+## Verkefni 1 - kóði  
+### 2: Birta upplýsingar um einn ákveðinn áfanga með Stored Procedure  
 
 delimiter €€  
 drop procedure if exists Afangi €€  
@@ -16,7 +16,7 @@ call afangi('ENSK2OF05BT');
 
 
 
-###3: Nýskráning áfanga með Store Procedure  
+### 3: Nýskráning áfanga með Store Procedure  
 
 delimiter €€  
 drop procedure if exists Nyr_Afangi €€  
@@ -31,7 +31,7 @@ call Nyr_Afangi('TEST230BF','Test','5');
 
 
 
-###4: Uppfæra áfanga með Store Procedure  
+### 4: Uppfæra áfanga með Store Procedure  
 
 delimiter €€  
 drop procedure if exists UppfaeraAfanga €€  
@@ -46,7 +46,7 @@ call UppfaeraAfanga('TEST230BF','TEST990DF','Test uppfært','3');
 
 
 
-###5: Eyða áfanga úr grunninum með Store Procedure  
+### 5: Eyða áfanga úr grunninum með Store Procedure  
 
 delimiter €€  
 drop procedure if exists EydaAfanga €€  
@@ -62,7 +62,7 @@ call EydaAfanga('Test990DF');
 
 
 
-###6: Reikna út(telja) heildarfjölda áfanga með Function  
+### 6: Reikna út(telja) heildarfjölda áfanga með Function  
 
 delimiter €€  
 drop function if exists TeljaAfanga €€  
@@ -76,7 +76,7 @@ delimiter ;
 
 
 
-###7: Function sem telur einingar sem eru í boði á ákveðinni námsleið(Track)  
+### 7: Function sem telur einingar sem eru í boði á ákveðinni námsleið(Track)  
 delimiter €€  
 drop function if exists TrackCredits €€  
 CREATE FUNCTION TrackCredits(track_ID)  
@@ -94,8 +94,8 @@ delimiter ;
 ###8: Skrifa Function sem kannar hvort ákv. dagsetning(date) sé á hlaupári  
 
 
-###9: Skrifa Function sem reiknar út aldur ef upp er gefin dagsetning(date)  
-###10: Stored Procedure sem skila öllum nemendum á ákveðinni önn(semester)  
+### 9: Skrifa Function sem reiknar út aldur ef upp er gefin dagsetning(date)  
+### 10: Stored Procedure sem skila öllum nemendum á ákveðinni önn(semester)  
 
 delimiter €€  
 drop procedure if exists NemendurAnnar €€  
