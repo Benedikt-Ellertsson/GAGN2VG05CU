@@ -313,3 +313,29 @@ DELIMITER ;
 
 CALL ListUsersByType('Super user', 'adminpass');
 ```
+#### Liður 4
+##### A)
+```
+DELIMITER €€
+DROP FUNCTION IF EXISTS CountUserProblems €€
+CREATE FUNCTION CountUserProblems (
+  p_Username VARCHAR(255)
+) RETURNS INT
+READS SQL DATA
+BEGIN
+  DECLARE v_ProblemCount INT;
+  
+  SELECT COUNT(*) INTO v_ProblemCount
+  FROM Problem
+  WHERE UserID = (
+    SELECT UserID
+    FROM User
+    WHERE Username = p_Username
+  );
+  
+  RETURN v_ProblemCount;
+END €€
+DELIMITER ;
+
+SELECT CountUserProblems('Bósi');
+```
