@@ -366,3 +366,28 @@ DELIMITER ;
 SELECT CountUserSolutions('Bósi');
 SELECT CountUserProblems('Bósi');
 ```
+##### C)
+```
+DELIMITER €€
+DROP FUNCTION IF EXISTS IsAdmin €€
+CREATE FUNCTION IsAdmin (
+  p_Username VARCHAR(255)
+) RETURNS BOOLEAN
+READS SQL DATA
+BEGIN
+  DECLARE v_IsAdmin BOOLEAN;
+  
+  SELECT CASE
+    WHEN UserTypeID = 5 THEN TRUE
+    ELSE FALSE
+  END INTO v_IsAdmin
+  FROM User
+  WHERE Username = p_Username;
+  
+  RETURN v_IsAdmin;
+END €€
+DELIMITER ;
+
+select IsAdmin('Bósi'); -- Skilar 0
+select IsAdmin('admin'); -- Skilar 1
+```
