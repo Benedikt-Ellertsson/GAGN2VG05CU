@@ -313,7 +313,8 @@ DELIMITER ;
 
 CALL ListUsersByType('Super user', 'adminpass');
 ```
-#### Liður 4
+### Liður 4
+#### Functions
 ##### A)
 ```
 DELIMITER €€
@@ -391,3 +392,26 @@ DELIMITER ;
 select IsAdmin('Bósi'); -- Skilar 0
 select IsAdmin('admin'); -- Skilar 1
 ```
+##### D)
+```
+DELIMITER €€
+DROP FUNCTION IF EXISTS CalculateCombinedRating €€
+CREATE FUNCTION CalculateCombinedRating (
+  p_SolutionID INT
+) RETURNS DECIMAL(5, 2)
+READS SQL DATA
+BEGIN
+  DECLARE v_CombinedRating DECIMAL(5, 2);
+  
+  SELECT AVG(Rating) INTO v_CombinedRating
+  FROM Evaluation
+  WHERE SolutionID = p_SolutionID;
+  
+  RETURN v_CombinedRating;
+END €€
+DELIMITER ;
+
+select CalculateCombinedRating(2);
+```
+### Liður 5
+#### Trigger
