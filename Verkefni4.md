@@ -179,7 +179,79 @@ VALUES
   ('8721', 391, 399),
   ('8722', 1109, 1097);
   ```
-  
+
+#### Store Procedures
+##### 1)
+```
+CREATE PROCEDURE FelagsUpplysingar(numerFelags VARCHAR(10))
+BEGIN
+    SELECT c.*, p.Fjoldi2018, p.Fjoldi2017
+    FROM Sveitarfelog c
+    JOIN FjoldiIbua p ON c.NumerSveitarFelags = p.NumerSveitarFelags
+    WHERE c.NumerSveitarfelags = numerFelags;
+END €€
+DELIMITER ;
+call FelagsUpplysingar('1100');
+```
+##### 3)
+```
+DROP PROCEDURE IF EXISTS FjoldiEftirAri;
+DELIMITER €€
+CREATE PROCEDURE FjoldiEftirAri(targetYear INT)
+BEGIN
+    IF targetYear = 2018 THEN
+        SELECT SUM(p.Fjoldi2018) AS TotalPopulation
+        FROM FjoldiIbua p;
+    ELSEIF targetYear = 2017 THEN
+        SELECT SUM(p.Fjoldi2017) AS TotalPopulation
+        FROM FjoldiIbua p;
+    ELSE
+        -- Handle other years or invalid inputs
+        SELECT NULL AS NafnSveitarfelags, NULL AS TotalPopulation;
+    END IF;
+END €€
+DELIMITER ;
+CALL FjoldiEftirAri(2018);
+```
+##### 4)
+```
+Drop procedure BreytingFjolda;
+DELIMITER €€
+CREATE PROCEDURE BreytingFjolda()
+BEGIN
+    SELECT c.NafnSveitarfelags,
+           ((p.Fjoldi2018 - p.Fjoldi2017) / p.Fjoldi2017) * 100 AS Breyting
+    FROM Sveitarfelog c
+    JOIN FjoldiIbua p ON c.NumerSveitarfelags = p.NumerSveitarfelags;
+END €€
+DELIMITER ;
+CALL BreytingFjolda();
+```
+##### 5)
+```
+drop procedure FjoldiMilliAra;
+DELIMITER €€
+CREATE PROCEDURE FjoldiMilliAra(targetYear1 INT, targetYear2 INT)
+BEGIN
+    DECLARE columnName1 VARCHAR(10);
+    DECLARE columnName2 VARCHAR(10);
+    
+    -- Dynamically determine the column names based on the target years
+    SET columnName1 = CONCAT('Fjoldi', targetYear1);
+    SET columnName2 = CONCAT('Fjoldi', targetYear2);
+
+    SET @query = CONCAT('SELECT c.NafnSveitarfelags, ((', columnName2, ' - ', columnName1, ') / ', columnName1, ') * 100 AS Breyting ',
+                        'FROM Sveitarfelog c JOIN FjoldiIbua p ON c.NumerSveitarfelags = p.NumerSveitarfelags');
+    
+    -- Prepare and execute the dynamic query
+    PREPARE stmt FROM @query;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+END €€
+DELIMITER ;
+CALL FjoldiMilliAra(2017, 2018);
+```
+
 #### Python kóði sem exportar gögn í json (json skrá má sjá í viðhengi á repo)
 ```
 import json
