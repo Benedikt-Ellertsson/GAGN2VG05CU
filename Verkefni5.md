@@ -210,12 +210,10 @@ CREATE PROCEDURE AddNewProblem (
 BEGIN
   DECLARE v_UserID INT;
   
-  -- Retrieve the UserID based on the provided Username
   SELECT UserID INTO v_UserID
   FROM User
   WHERE Username = p_Username;
   
-  -- Insert the new problem into the Problems table
   INSERT INTO Problem (UserID, CategoryID, ProblemDescription, Timestamp)
   VALUES (v_UserID, p_CategoryID, p_ProblemDescription, NOW());
 END €€
@@ -235,12 +233,10 @@ CREATE PROCEDURE AddNewSolution (
 BEGIN
   DECLARE v_UserID INT;
   
-  -- Retrieve the UserID based on the provided Username
   SELECT UserID INTO v_UserID
   FROM User
   WHERE Username = p_Username;
   
-  -- Insert the new solution into the Solutions table
   INSERT INTO Solution (UserID, ProblemID, SolutionDescription, Timestamp)
   VALUES (v_UserID, p_ProblemID, p_SolutionDescription, NOW());
 END €€
@@ -261,18 +257,17 @@ BEGIN
   DECLARE v_AdminID INT;
   DECLARE v_StatusID INT;
   
-  -- Verify the admin password
+  
   SELECT UserID INTO v_AdminID
   FROM User
   WHERE Username = 'admin' AND UserPassword = p_AdminPassword AND UserTypeID = 5;
   
-  -- If admin password verification is successful, find the corresponding StatusID for the provided NewStatus
+  
   IF v_AdminID IS NOT NULL THEN
     SELECT UserStatusID INTO v_StatusID
     FROM UserStatus
     WHERE StatusName = p_NewStatus;
     
-    -- If StatusID is found, update the UserStatus for the specified user
     IF v_StatusID IS NOT NULL THEN
       UPDATE User
       SET UserStatusID = v_StatusID
@@ -284,4 +279,37 @@ DELIMITER ;
 
 CALL UpdateUserStatus('Benjamín', 'Inactive', 'adminpass');
 
+```
+##### D)
+```
+DELIMITER €€
+DROP PROCEDURE IF EXISTS ListUsersByType €€
+CREATE PROCEDURE ListUsersByType (
+  IN p_UserType VARCHAR(255),
+  IN p_AdminPassword VARCHAR(255)
+)
+BEGIN
+  DECLARE v_AdminID INT;
+  DECLARE v_UserTypeID INT;
+  
+  SELECT UserID INTO v_AdminID
+  FROM User
+  WHERE Username = 'admin' AND UserPassword = p_AdminPassword AND UserTypeID = 5;
+  
+  
+  IF v_AdminID IS NOT NULL THEN
+    SELECT UserTypeID INTO v_UserTypeID
+    FROM UserType
+    WHERE TypeName = p_UserType;
+   
+    IF v_UserTypeID IS NOT NULL THEN
+      SELECT *
+      FROM User
+      WHERE UserTypeID = v_UserTypeID;
+    END IF;
+  END IF;
+END €€
+DELIMITER ;
+
+CALL ListUsersByType('Super user', 'adminpass');
 ```
