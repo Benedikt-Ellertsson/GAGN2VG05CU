@@ -248,7 +248,7 @@ DELIMITER ;
 
 CALL AddNewSolution('Bósi', 1, 'Hér er lausnin sem þú leitar að');
 ```
-##### c)
+##### C)
 ```
 DELIMITER €€
 DROP PROCEDURE IF EXISTS UpdateUserStatus €€
