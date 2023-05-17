@@ -223,3 +223,65 @@ DELIMITER ;
 
 CALL AddNewProblem('Katla', 2, 'Er að lenda í vandræðum við að tengjast gagnagrunninum.');
 ```
+##### B)
+```
+DELIMITER €€
+DROP PROCEDURE IF EXISTS AddNewSolution €€
+CREATE PROCEDURE AddNewSolution (
+  IN p_Username VARCHAR(255),
+  IN p_ProblemID INT,
+  IN p_SolutionDescription TEXT
+)
+BEGIN
+  DECLARE v_UserID INT;
+  
+  -- Retrieve the UserID based on the provided Username
+  SELECT UserID INTO v_UserID
+  FROM User
+  WHERE Username = p_Username;
+  
+  -- Insert the new solution into the Solutions table
+  INSERT INTO Solution (UserID, ProblemID, SolutionDescription, Timestamp)
+  VALUES (v_UserID, p_ProblemID, p_SolutionDescription, NOW());
+END €€
+DELIMITER ;
+
+CALL AddNewSolution('Bósi', 1, 'Hér er lausnin sem þú leitar að');
+```
+##### c)
+```
+DELIMITER €€
+DROP PROCEDURE IF EXISTS UpdateUserStatus €€
+CREATE PROCEDURE UpdateUserStatus (
+  IN p_Username VARCHAR(255),
+  IN p_NewStatus VARCHAR(255),
+  IN p_AdminPassword VARCHAR(255)
+)
+BEGIN
+  DECLARE v_AdminID INT;
+  DECLARE v_StatusID INT;
+  
+  -- Verify the admin password
+  SELECT UserID INTO v_AdminID
+  FROM User
+  WHERE Username = 'admin' AND UserPassword = p_AdminPassword AND UserTypeID = 5;
+  
+  -- If admin password verification is successful, find the corresponding StatusID for the provided NewStatus
+  IF v_AdminID IS NOT NULL THEN
+    SELECT UserStatusID INTO v_StatusID
+    FROM UserStatus
+    WHERE StatusName = p_NewStatus;
+    
+    -- If StatusID is found, update the UserStatus for the specified user
+    IF v_StatusID IS NOT NULL THEN
+      UPDATE User
+      SET UserStatusID = v_StatusID
+      WHERE Username = p_Username;
+    END IF;
+  END IF;
+END €€
+DELIMITER ;
+
+CALL UpdateUserStatus('Benjamín', 'Inactive', 'adminpass');
+
+```
