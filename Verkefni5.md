@@ -339,3 +339,30 @@ DELIMITER ;
 
 SELECT CountUserProblems('Bósi');
 ```
+##### B)
+SELECT CountUserProblems('Bósi');
+```
+DELIMITER €€
+DROP FUNCTION IF EXISTS CountUserSolutions €€
+CREATE FUNCTION CountUserSolutions (
+  p_Username VARCHAR(255)
+) RETURNS INT
+READS SQL DATA
+BEGIN
+  DECLARE v_SolutionCount INT;
+  
+  SELECT COUNT(*) INTO v_SolutionCount
+  FROM Solution
+  WHERE UserID = (
+    SELECT UserID
+    FROM User
+    WHERE Username = p_Username
+  );
+  
+  RETURN v_SolutionCount;
+END €€
+DELIMITER ;
+
+SELECT CountUserSolutions('Bósi');
+SELECT CountUserProblems('Bósi');
+```
