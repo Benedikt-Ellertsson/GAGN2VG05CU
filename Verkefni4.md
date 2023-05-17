@@ -193,6 +193,51 @@ END €€
 DELIMITER ;
 call FelagsUpplysingar('1100');
 ```
+##### 2)
+```
+DELIMITER €€
+DROP PROCEDURE IF EXISTS LeitaEftirLandsvaedi €€
+CREATE PROCEDURE LeitaEftirLandsvaedi(IN landSvaedi VARCHAR(50))
+BEGIN
+    IF landSvaedi = 'Höfuðborgarsvæði' THEN
+        SELECT *
+        FROM Sveitarfelog
+        WHERE NumerSveitarfelags BETWEEN '0000' AND '1606';
+    ELSEIF landSvaedi = 'Suðurnes' THEN
+        SELECT *
+        FROM Sveitarfelog
+        WHERE NumerSveitarfelags BETWEEN '2000' AND '2506';
+    ELSEIF landSvaedi = 'Vesturland' THEN
+        SELECT *
+        FROM Sveitarfelog
+        WHERE NumerSveitarfelags BETWEEN '3000' AND '3999';
+    ELSEIF landSvaedi = 'Vestfirðir' THEN
+        SELECT *
+        FROM Sveitarfelog
+        WHERE NumerSveitarfelags BETWEEN '4000' AND '4999';
+    ELSEIF landSvaedi = 'Norðurland vestra' THEN
+        SELECT *
+        FROM Sveitarfelog
+        WHERE NumerSveitarfelags BETWEEN '5000' AND '5999';
+    ELSEIF landSvaedi = 'Norðurland eysta' THEN
+        SELECT *
+        FROM Sveitarfelog
+        WHERE NumerSveitarfelags BETWEEN '6000' AND '6999';
+    ELSEIF landSvaedi = 'Austurland' THEN
+        SELECT *
+        FROM Sveitarfelog
+        WHERE NumerSveitarfelags BETWEEN '7000' AND '7999';
+    ELSEIF landSvaedi = 'Suðurland' THEN
+        SELECT *
+        FROM Sveitarfelog
+        WHERE NumerSveitarfelags BETWEEN '8000' AND '8999';
+    ELSE
+        SELECT 'Invalid state name' AS ErrorMessage;
+    END IF;
+END €€
+DELIMITER ;
+CALL LeitaEftirLandsvaedi('Suðurland');
+```
 ##### 3)
 ```
 DROP PROCEDURE IF EXISTS FjoldiEftirAri;
