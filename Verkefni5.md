@@ -1,5 +1,6 @@
 # GAGN2VG05CU
 ## Verkefni 5   || Enn í vinnslu
+### Liður 1
 #### Uppsetning
 ```
 -- Uppsetning
@@ -177,4 +178,21 @@ VALUES
   (12, 12, 4, 7),
   (13, 13, 1, 8),
   (14, 14, 2, 6);
+```
+### Liður 2
+#### Crud
+```
+-- Create
+INSERT INTO User (UserID, Username, UserPassword, UserTypeID, UserStatusID)
+VALUES (6, 'Ellert', 'password6',
+        (SELECT UserTypeID FROM UserType WHERE TypeName = 'Beginner'),
+        (SELECT UserStatusID FROM UserStatus WHERE StatusName = 'Active'));
+-- Read
+SELECT * FROM User WHERE UserID = 6;
+-- Update
+UPDATE User 
+SET UserTypeID = (SELECT UserTypeID FROM UserType WHERE TypeName = 'Super user')
+WHERE UserID = 6;
+-- Delete
+DELETE FROM User WHERE UserID = 6;
 ```
