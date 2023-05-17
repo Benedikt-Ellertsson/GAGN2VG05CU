@@ -196,3 +196,30 @@ WHERE UserID = 6;
 -- Delete
 DELETE FROM User WHERE UserID = 6;
 ```
+### Liður 3
+#### Store procedures
+##### A)
+```
+DELIMITER €€
+DROP PROCEDURE IF EXISTS AddNewProblem €€
+CREATE PROCEDURE AddNewProblem (
+  IN p_Username VARCHAR(255),
+  IN p_CategoryID INT,
+  IN p_ProblemDescription TEXT
+)
+BEGIN
+  DECLARE v_UserID INT;
+  
+  -- Retrieve the UserID based on the provided Username
+  SELECT UserID INTO v_UserID
+  FROM User
+  WHERE Username = p_Username;
+  
+  -- Insert the new problem into the Problems table
+  INSERT INTO Problem (UserID, CategoryID, ProblemDescription, Timestamp)
+  VALUES (v_UserID, p_CategoryID, p_ProblemDescription, NOW());
+END €€
+DELIMITER ;
+
+CALL AddNewProblem('Katla', 2, 'Er að lenda í vandræðum við að tengjast gagnagrunninum.');
+```
